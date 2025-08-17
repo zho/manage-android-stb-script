@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Usage: ./stb_batch.sh <adb command>
-# Example: ./stb_batch.sh reboot
-# Example: ./stb_batch.sh "install -r myapp.apk"
+# Usage: ./remote_control.sh <adb command>
+# Example: ./remote_control.sh reboot
+# Example: ./remote_control.sh "install -r myapp.apk"
 
 if [[ $# -eq 0 ]]; then
   echo "Usage: $0 <adb command>"
