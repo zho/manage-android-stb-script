@@ -68,6 +68,18 @@ else
 fi
 
 echo ""
+echo "---- 🎞️ Codec Detection (VLC / ExoPlayer) ----"
+CODEC_LOGS=$(adb -s $STB_IP:5555 logcat -d -t 200 | grep -E "VLC|libvlc|ExoPlayerImpl|MediaCodecRenderer|ACodec")
+if [ -n "$CODEC_LOGS" ]; then
+  echo "$CODEC_LOGS" | sed 's/^/   /'
+else
+  echo "⚠️  No codec information detected (maybe not logged recently)"
+fi
+
+# Clear logs after reading to avoid repeated output on next run
+adb -s $STB_IP:5555 logcat -c >/dev/null 2>&1
+
+echo ""
 echo "========================================="
 echo "✅ Diagnostic Complete"
 echo "========================================="
