@@ -16,18 +16,28 @@ adb connect ${STB_IP}:${PORT} >/dev/null
 
 echo "---- Checking Audio ----"
 AUDIO=$(adb -s ${STB_IP}:${PORT} shell dumpsys media.audio_flinger | grep "AudioTrack" | grep -v "stopped")
+AUDIO_DEVICE=$(adb -s ${STB_IP}:${PORT} shell dumpsys media.audio_flinger | grep -i "Device:" | head -n 1 | awk -F':' '{print $2}' | xargs)
 
 if [ -n "$AUDIO" ]; then
-  echo "✅ Audio: Playing"
+  if [ -n "$AUDIO_DEVICE" ]; then
+    echo "✅ Audio: Playing (Output: $AUDIO_DEVICE)"
+  else
+    echo "✅ Audio: Playing"
+  fi
 else
   echo "❌ Audio: Not playing"
 fi
 
 echo "---- Checking Video ----"
 VIDEO=$(adb -s ${STB_IP}:${PORT} shell dumpsys media.codec | grep -iE "video/avc|video/hevc|video/mp4v")
+VIDEO_CODEC=$(adb -s ${STB_IP}:${PORT} shell dumpsys media.codec | grep -i "name:" | grep -i "video" | awk -F'name:' '{print $2}' | xargs)
 
 if [ -n "$VIDEO" ]; then
-  echo "✅ Video: Playing"
+  if [ -n "$VIDEO_CODEC" ]; then
+    echo "✅ Video: Playing (Codec:$VIDEO_CODEC)"
+  else
+    echo "✅ Video: Playing"
+  fi
 else
   echo "❌ Video: Not playing"
 fi
