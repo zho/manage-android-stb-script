@@ -20,9 +20,9 @@ The Manage Android STB Scripts are designed to facilitate the management of Andr
   ./discover_devices.sh
   ```
 
-- To execute a command on a specific device:
+- To execute a command on all connected device:
   ```bash
-  ./remote_control.sh <device_ip> <command>
+  ./remote_control.sh <command>
   ```
 
 - To monitor device status:
